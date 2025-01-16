@@ -60,6 +60,7 @@ Delegated HTTP validation combines the following benefits from the existing DNS-
 # Delegated HTTP Validation
 
 This proposal extends the HTTP-01 challenge type to support delegation using a DNS record, similar to the approach used for DNS-01 challenges. The process is as follows:
+
 1. **DNS Configuration**: The domain owner creates a DNS record for `_acme-challenge.<YOUR_DOMAIN>` pointing to a server capable of serving HTTP requests. For example:
 ```
 _acme-challenge.example.com CNAME validation-server.example.net
@@ -80,7 +81,7 @@ _acme-challenge.example.com CNAME validation-server.example.net
 
 # IANA Considerations
 
-This document has no IANA actions.
+TODO: https://github.com/jmcrawford45/draft-crawford-acme-delegated-http/issues/1
 
 
 --- back
