@@ -126,17 +126,20 @@ Table of Contents
    1.  *DNS Configuration*: The domain owner creates a DNS record for
        _acme-challenge.<YOUR_DOMAIN> pointing to a server capable of
        serving HTTP requests.  For example: _acme-challenge.example.com
-       CNAME validation-server.example.net
+       CNAME validation-server-example.net
 
    2.  *Challenge File Provisioning*: The designated server hosts the
        challenge file at the path /.well-known/acme-challenge/<TOKEN>,
        containing the domain authorization string.
 
    3.  *Validation Request*: The ACME server performs the following
-       steps: - Attempts validation using the standard HTTP-01 method. -
-       If the HTTP-01 method fails or if delegation is detected,
-       constructs a URL using _acme-challenge.<YOUR_DOMAIN> and sends an
-       HTTP GET request to the designated server.
+       steps:
+
+       *  Attempts validation using the standard HTTP-01 method.
+
+       *  If the HTTP-01 method fails or if delegation is detected,
+          constructs a URL using _acme-challenge.<YOUR_DOMAIN> and sends
+          an HTTP GET request to the designated server.
 
    4.  *Validation Response*: The designated server responds with the
        authorization string, which the ACME server verifies against the

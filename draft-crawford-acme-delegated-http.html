@@ -1220,16 +1220,22 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <li id="section-3-2.1">
           <p id="section-3-2.1.1"><strong>DNS Configuration</strong>: The domain owner creates a DNS record for <code>_acme-challenge.&lt;YOUR_DOMAIN&gt;</code> pointing to a server capable of serving HTTP requests. For example:
 <code>
-_acme-challenge.example.com CNAME validation-server.example.net
+_acme-challenge.example.com CNAME validation-server-example.net
 </code><a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-2.2">
           <p id="section-3-2.2.1"><strong>Challenge File Provisioning</strong>: The designated server hosts the challenge file at the path <code>/.well-known/acme-challenge/&lt;TOKEN&gt;</code>, containing the domain authorization string.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-2.3">
-          <p id="section-3-2.3.1"><strong>Validation Request</strong>: The ACME server performs the following steps:
-- Attempts validation using the standard HTTP-01 method.
-- If the HTTP-01 method fails or if delegation is detected, constructs a URL using <code>_acme-challenge.&lt;YOUR_DOMAIN&gt;</code> and sends an HTTP GET request to the designated server.<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
+          <p id="section-3-2.3.1"><strong>Validation Request</strong>: The ACME server performs the following steps:<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-2.3.2.1">
+              <p id="section-3-2.3.2.1.1">Attempts validation using the standard HTTP-01 method.<a href="#section-3-2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3-2.3.2.2">
+              <p id="section-3-2.3.2.2.1">If the HTTP-01 method fails or if delegation is detected, constructs a URL using <code>_acme-challenge.&lt;YOUR_DOMAIN&gt;</code> and sends an HTTP GET request to the designated server.<a href="#section-3-2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </li>
         <li id="section-3-2.4">
           <p id="section-3-2.4.1"><strong>Validation Response</strong>: The designated server responds with the authorization string, which the ACME server verifies against the expected value.<a href="#section-3-2.4.1" class="pilcrow">¶</a></p>
