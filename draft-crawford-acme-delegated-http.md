@@ -26,7 +26,7 @@ venue:
 author:
  -
     fullname: "Jared Crawford"
-    organization: Your Organization Here
+    organization: Netflix
     email: "jmcrawford45@gmail.com"
 
 normative:
