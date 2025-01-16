@@ -3,22 +3,25 @@
 
 
 Automated Certificate Management Environment                 J. Crawford
-Internet-Draft                                                   Netflix
-Intended status: Informational                           16 January 2025
-Expires: 20 July 2025
+Internet-Draft                                                   A. Chen
+Intended status: Informational                                H. Shafagh
+Expires: 20 July 2025                                            Netflix
+                                                         16 January 2025
 
 
-             Delegated HTTP-01 Validation in ACME Protocol
+             Delegated http-01 Validation in ACME Protocol
                draft-crawford-acme-delegated-http-latest
 
 Abstract
 
-   This document proposes an extension to the ACME protocol to enhance
-   the HTTP-01 challenge type by allowing for delegation, enabling
-   validation requests to be directed to a designated server.  This
-   approach mirrors the functionality currently possible with DNS-01
-   challenges via DNS CNAME records, aiming to improve the flexibility
-   and scalability of the HTTP-01 validation method.
+   This document proposes an extension to the Automated Certificate
+   Management Environment (ACME) !RFC8555 protocol to enhance the
+   http-01 challenge type (see Section 8.3 of [RFC8555]) by allowing for
+   delegation, enabling validation requests to be directed to a
+   designated server.  This approach mirrors the functionality available
+   with dns-01 (see Section 8.4 of [RFC8555]) challenges via DNS CNAME
+   records, aiming to improve the flexibility and scalability of the
+   http-01 validation method.
 
 About This Document
 
@@ -78,22 +81,21 @@ Table of Contents
    5.  IANA Considerations
    6.  Normative References
    Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
-   The Automated Certificate Management Environment (ACME) protocol
-   provides mechanisms for validating domain control using several
-   challenge types, including HTTP-01 and DNS-01.  While DNS-01
-   challenges allow for delegation using DNS CNAME records, HTTP-01
-   challenges currently require direct hosting of challenge responses on
+   The ACME protocol provides mechanisms for validating domain control
+   using several challenge types, including http-01 and dns-01.  While
+   dns-01 challenges allow for delegation using DNS CNAME records,
+   http-01 challenges require direct hosting of challenge responses on
    the domain being validated.  This document introduces a mechanism to
-   delegate HTTP-01 validation requests to a designated server.  By
+   delegate http-01 validation requests to a designated server.  By
    leveraging DNS records to redirect HTTP validation, this proposal
-   enables centralized management of validation requests while
-   addressing challenges associated with validating domains hosted on
-   corporate networks or behind firewalls.  Delegated HTTP validation
-   combines the following benefits from the existing DNS-01 and HTTP-01
+   enables http-01 validation while addressing challenges associated
+   with validating domains hosted on corporate networks, on load
+   balancers, or behind firewalls.  Delegated HTTP validation combines
+   the following benefits from the existing dns-01 and http-01
    validation methods.
 
    *  *Centralized Management*: Enables centralized management of
@@ -103,11 +105,14 @@ Table of Contents
    *  *Reduced Exposure*: Eliminates the need for direct access to the
       primary web server for validation.
 
-   *  *Performance*: Reduces latency compared to DNS-01 challenges by
+   *  *Performance*: Reduces latency compared to dns-01 challenges by
       allowing synchronous validation.
 
    *  *Security*: Avoids risks associated with exposing DNS API
       credentials.
+
+   *  *Scalability*: Enables parallelized validation of domains on
+      distributed load balancers.
 
 2.  Conventions and Definitions
 
@@ -119,27 +124,32 @@ Table of Contents
 
 3.  Delegated HTTP Validation
 
-   This proposal extends the HTTP-01 challenge type to support
+   This proposal extends the http-01 challenge type to support
    delegation using a DNS record, similar to the approach used for
-   DNS-01 challenges.  The process is as follows:
+   dns-01 challenges.  The process for validating example.com is as
+   follows:
 
    1.  *DNS Configuration*: The domain owner creates a DNS record for
-       _acme-challenge.<YOUR_DOMAIN> pointing to a server capable of
-       serving HTTP requests.  For example: _acme-challenge.example.com
-       CNAME validation-server-example.net
+       _acme-challenge.example.com pointing to a server capable of
+       serving HTTP validation requests.  For example:
+
+       _acme-challenge.example.com.  CNAME validation-server-
+       example.net.
 
    2.  *Challenge File Provisioning*: The designated server hosts the
-       challenge file at the path /.well-known/acme-challenge/<TOKEN>,
+       challenge file at the path /.well-known/acme-challenge/{token},
        containing the domain authorization string.
 
-   3.  *Validation Request*: The ACME server performs the following
-       steps:
+   3.  *Validation Request*: The ACME server attempts validation in the
+       following order:
 
-       *  Attempts validation using the standard HTTP-01 method.
+       *  http://_acme-challenge.example.com/.well-known/acme-
+          challenge/{token}
 
-       *  If the HTTP-01 method fails or if delegation is detected,
-          constructs a URL using _acme-challenge.<YOUR_DOMAIN> and sends
-          an HTTP GET request to the designated server.
+       *  http://example.com/.well-known/acme-challenge/{token}
+
+       An ACME server MUST try the undelegated URL if the delegated URL
+       fails.
 
    4.  *Validation Response*: The designated server responds with the
        authorization string, which the ACME server verifies against the
@@ -169,12 +179,27 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+   [RFC8555]  Barnes, R., Hoffman-Andrews, J., McCarney, D., and J.
+              Kasten, "Automatic Certificate Management Environment
+              (ACME)", RFC 8555, DOI 10.17487/RFC8555, March 2019,
+              <https://www.rfc-editor.org/rfc/rfc8555>.
+
 Acknowledgments
 
    TODO acknowledge.
 
-Author's Address
+Authors' Addresses
 
    Jared Crawford
    Netflix
    Email: jmcrawford45@gmail.com
+
+
+   Andrew Chen
+   Netflix
+   Email: achen.code@gmail.com
+
+
+   Hoss Shafagh
+   Netflix
+   Email: hoss.sha@gmail.com

@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Delegated HTTP-01 Validation in ACME Protocol</title>
+<title>Delegated http-01 Validation in ACME Protocol</title>
 <meta content="Jared Crawford" name="author">
+<meta content="Andrew Chen" name="author">
+<meta content="Hoss Shafagh" name="author">
 <meta content="
-       This document proposes an extension to the ACME protocol to enhance the HTTP-01 challenge type by allowing for delegation, enabling validation requests to be directed to a designated server. This approach mirrors the functionality currently possible with DNS-01 challenges via DNS CNAME records, aiming to improve the flexibility and scalability of the HTTP-01 validation method. 
+       This document proposes an extension to the Automated Certificate Management Environment (ACME) !RFC8555 protocol to enhance the http-01 challenge type (see  ) by allowing for delegation, enabling validation requests to be directed to a designated server. This approach mirrors the functionality available with dns-01 (see  ) challenges via DNS CNAME records, aiming to improve the flexibility and scalability of the http-01 validation method. 
     " name="description">
 <meta content="xml2rfc 3.25.0" name="generator">
 <meta content="next generation" name="keyword">
@@ -1049,7 +1051,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <td class="right">January 2025</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Crawford</td>
+<td class="left">Crawford, et al.</td>
 <td class="center">Expires 20 July 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
@@ -1069,19 +1071,27 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
 <dd class="expires"><time datetime="2025-07-20">20 July 2025</time></dd>
-<dt class="label-authors">Author:</dt>
+<dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">J. Crawford</div>
 <div class="org">Netflix</div>
 </div>
+<div class="author">
+      <div class="author-name">A. Chen</div>
+<div class="org">Netflix</div>
+</div>
+<div class="author">
+      <div class="author-name">H. Shafagh</div>
+<div class="org">Netflix</div>
+</div>
 </dd>
 </dl>
 </div>
-<h1 id="title">Delegated HTTP-01 Validation in ACME Protocol</h1>
+<h1 id="title">Delegated http-01 Validation in ACME Protocol</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document proposes an extension to the ACME protocol to enhance the HTTP-01 challenge type by allowing for delegation, enabling validation requests to be directed to a designated server. This approach mirrors the functionality currently possible with DNS-01 challenges via DNS CNAME records, aiming to improve the flexibility and scalability of the HTTP-01 validation method.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document proposes an extension to the Automated Certificate Management Environment (ACME) !RFC8555 protocol to enhance the http-01 challenge type (see <span><a href="https://rfc-editor.org/rfc/rfc8555#section-8.3" class="relref">Section 8.3</a> of [<a href="#RFC8555" class="cite xref">RFC8555</a>]</span>) by allowing for delegation, enabling validation requests to be directed to a designated server. This approach mirrors the functionality available with dns-01 (see <span><a href="https://rfc-editor.org/rfc/rfc8555#section-8.4" class="relref">Section 8.4</a> of [<a href="#RFC8555" class="cite xref">RFC8555</a>]</span>) challenges via DNS CNAME records, aiming to improve the flexibility and scalability of the http-01 validation method.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1169,7 +1179,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1180,9 +1190,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">The Automated Certificate Management Environment (ACME) protocol provides mechanisms for validating domain control using several challenge types, including HTTP-01 and DNS-01. While DNS-01 challenges allow for delegation using DNS CNAME records, HTTP-01 challenges currently require direct hosting of challenge responses on the domain being validated.
-This document introduces a mechanism to delegate HTTP-01 validation requests to a designated server. By leveraging DNS records to redirect HTTP validation, this proposal enables centralized management of validation requests while addressing challenges associated with validating domains hosted on corporate networks or behind firewalls.
-Delegated HTTP validation combines the following benefits from the existing DNS-01 and HTTP-01 validation methods.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">The ACME protocol provides mechanisms for validating domain control using several challenge types, including http-01 and dns-01. While dns-01 challenges allow for delegation using DNS CNAME records, http-01 challenges require direct hosting of challenge responses on the domain being validated.
+This document introduces a mechanism to delegate http-01 validation requests to a designated server. By leveraging DNS records to redirect HTTP validation, this proposal enables http-01 validation while addressing challenges associated with validating domains hosted on corporate networks, on load balancers, or behind firewalls.
+Delegated HTTP validation combines the following benefits from the existing dns-01 and http-01 validation methods.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1-2.1">
           <p id="section-1-2.1.1"><strong>Centralized Management</strong>: Enables centralized management of challenge responses, reducing the complexity of managing multiple domains.<a href="#section-1-2.1.1" class="pilcrow">¶</a></p>
@@ -1191,10 +1201,13 @@ Delegated HTTP validation combines the following benefits from the existing DNS-
           <p id="section-1-2.2.1"><strong>Reduced Exposure</strong>: Eliminates the need for direct access to the primary web server for validation.<a href="#section-1-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-2.3">
-          <p id="section-1-2.3.1"><strong>Performance</strong>: Reduces latency compared to DNS-01 challenges by allowing synchronous validation.<a href="#section-1-2.3.1" class="pilcrow">¶</a></p>
+          <p id="section-1-2.3.1"><strong>Performance</strong>: Reduces latency compared to dns-01 challenges by allowing synchronous validation.<a href="#section-1-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-2.4">
           <p id="section-1-2.4.1"><strong>Security</strong>: Avoids risks associated with exposing DNS API credentials.<a href="#section-1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-2.5">
+          <p id="section-1-2.5.1"><strong>Scalability</strong>: Enables parallelized validation of domains on distributed load balancers.<a href="#section-1-2.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
@@ -1215,27 +1228,29 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-delegated-http-validation">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-delegated-http-validation" class="section-name selfRef">Delegated HTTP Validation</a>
       </h2>
-<p id="section-3-1">This proposal extends the HTTP-01 challenge type to support delegation using a DNS record, similar to the approach used for DNS-01 challenges. The process is as follows:<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">This proposal extends the http-01 challenge type to support delegation using a DNS record, similar to the approach used for dns-01 challenges. The process for validating example.com is as follows:<a href="#section-3-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-3-2">
 <li id="section-3-2.1">
-          <p id="section-3-2.1.1"><strong>DNS Configuration</strong>: The domain owner creates a DNS record for <code>_acme-challenge.&lt;YOUR_DOMAIN&gt;</code> pointing to a server capable of serving HTTP requests. For example:
-<code>
-_acme-challenge.example.com CNAME validation-server-example.net
-</code><a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
+          <p id="section-3-2.1.1"><strong>DNS Configuration</strong>: The domain owner creates a DNS record for <code>_acme-challenge.example.com</code> pointing to a server capable of serving HTTP validation requests. For example:<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-3-2.1.2"><code>
+_acme-challenge.example.com. CNAME validation-server-example.net.
+</code><a href="#section-3-2.1.2" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-2.2">
-          <p id="section-3-2.2.1"><strong>Challenge File Provisioning</strong>: The designated server hosts the challenge file at the path <code>/.well-known/acme-challenge/&lt;TOKEN&gt;</code>, containing the domain authorization string.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
+          <p id="section-3-2.2.1"><strong>Challenge File Provisioning</strong>: The designated server hosts the challenge file at the path <code>/.well-known/acme-challenge/{token}</code>, containing the domain authorization string.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-2.3">
-          <p id="section-3-2.3.1"><strong>Validation Request</strong>: The ACME server performs the following steps:<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
+          <p id="section-3-2.3.1"><strong>Validation Request</strong>: The ACME server attempts validation in the following order:<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-2.3.2.1">
-              <p id="section-3-2.3.2.1.1">Attempts validation using the standard HTTP-01 method.<a href="#section-3-2.3.2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-3-2.3.2.1.1">http://_acme-challenge.example.com/.well-known/acme-challenge/{token}<a href="#section-3-2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3-2.3.2.2">
-              <p id="section-3-2.3.2.2.1">If the HTTP-01 method fails or if delegation is detected, constructs a URL using <code>_acme-challenge.&lt;YOUR_DOMAIN&gt;</code> and sends an HTTP GET request to the designated server.<a href="#section-3-2.3.2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-3-2.3.2.2.1">http://example.com/.well-known/acme-challenge/{token}<a href="#section-3-2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
+<p id="section-3-2.3.3">
+An ACME server <span class="bcp14">MUST</span> try the undelegated URL if the delegated URL fails.<a href="#section-3-2.3.3" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-2.4">
           <p id="section-3-2.4.1"><strong>Validation Response</strong>: The designated server responds with the authorization string, which the ACME server verifies against the expected value.<a href="#section-3-2.4.1" class="pilcrow">¶</a></p>
@@ -1277,8 +1292,12 @@ _acme-challenge.example.com CNAME validation-server-example.net
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
-    <dd>
+      <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8555">[RFC8555]</dt>
+    <dd>
+<span class="refAuthor">Barnes, R.</span>, <span class="refAuthor">Hoffman-Andrews, J.</span>, <span class="refAuthor">McCarney, D.</span>, and <span class="refAuthor">J. Kasten</span>, <span class="refTitle">"Automatic Certificate Management Environment (ACME)"</span>, <span class="seriesInfo">RFC 8555</span>, <span class="seriesInfo">DOI 10.17487/RFC8555</span>, <time datetime="2019-03" class="refDate">March 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8555">https://www.rfc-editor.org/rfc/rfc8555</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1293,8 +1312,8 @@ _acme-challenge.example.com CNAME validation-server-example.net
 </div>
 <div id="authors-addresses">
 <section id="appendix-B">
-      <h2 id="name-authors-address">
-<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Jared Crawford</span></div>
@@ -1302,6 +1321,22 @@ _acme-challenge.example.com CNAME validation-server-example.net
 <div class="email">
 <span>Email:</span>
 <a href="mailto:jmcrawford45@gmail.com" class="email">jmcrawford45@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Andrew Chen</span></div>
+<div dir="auto" class="left"><span class="org">Netflix</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:achen.code@gmail.com" class="email">achen.code@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Hoss Shafagh</span></div>
+<div dir="auto" class="left"><span class="org">Netflix</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:hoss.sha@gmail.com" class="email">hoss.sha@gmail.com</a>
 </div>
 </address>
 </section>
