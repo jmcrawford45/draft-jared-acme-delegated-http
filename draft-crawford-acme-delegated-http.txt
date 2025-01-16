@@ -2,34 +2,41 @@
 
 
 
-WG Working Group                                              Y. N. Here
+Automated Certificate Management Environment                 J. Crawford
 Internet-Draft                                    Your Organization Here
 Intended status: Informational                           16 January 2025
 Expires: 20 July 2025
 
 
              Delegated HTTP-01 Validation in ACME Protocol
-                  draft-todo-yourname-protocol-latest
+               draft-crawford-acme-delegated-http-latest
 
 Abstract
 
-   TODO Abstract
+   This document proposes an extension to the ACME protocol to enhance
+   the HTTP-01 challenge type by allowing for delegation, enabling
+   validation requests to be directed to a designated server.  This
+   approach mirrors the functionality currently possible with DNS-01
+   challenges via DNS CNAME records, aiming to improve the flexibility
+   and scalability of the HTTP-01 validation method.
 
 About This Document
 
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://example.com/LATEST.  Status information for this document may
-   be found at https://datatracker.ietf.org/doc/draft-todo-yourname-
-   protocol/.
+   https://jmcrawford45.github.io/draft-crawford-acme-delegated-http/
+   draft-crawford-acme-delegated-http.html.  Status information for this
+   document may be found at https://datatracker.ietf.org/doc/draft-
+   crawford-acme-delegated-http/.
 
-   Discussion of this document takes place on the WG Working Group
-   mailing list (mailto:WG@example.com), which is archived at
-   https://example.com/WG.
+   Discussion of this document takes place on the Automated Certificate
+   Management Environment mailing list (mailto:acme@ietf.org), which is
+   archived at https://mailarchive.ietf.org/arch/browse/acme/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/acme/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/USER/REPO.
+   https://github.com/jmcrawford45/draft-crawford-acme-delegated-http.
 
 Status of This Memo
 
@@ -66,15 +73,41 @@ Table of Contents
 
    1.  Introduction
    2.  Conventions and Definitions
-   3.  Security Considerations
-   4.  IANA Considerations
-   5.  Normative References
+   3.  Delegated HTTP Validation
+   4.  Security Considerations
+   5.  IANA Considerations
+   6.  Normative References
    Acknowledgments
    Author's Address
 
 1.  Introduction
 
-   TODO Introduction
+   The Automated Certificate Management Environment (ACME) protocol
+   provides mechanisms for validating domain control using several
+   challenge types, including HTTP-01 and DNS-01.  While DNS-01
+   challenges allow for delegation using DNS CNAME records, HTTP-01
+   challenges currently require direct hosting of challenge responses on
+   the domain being validated.  This document introduces a mechanism to
+   delegate HTTP-01 validation requests to a designated server.  By
+   leveraging DNS records to redirect HTTP validation, this proposal
+   enables centralized management of validation requests while
+   addressing challenges associated with validating domains hosted on
+   corporate networks or behind firewalls.  Delegated HTTP validation
+   combines the following benefits from the existing DNS-01 and HTTP-01
+   validation methods.
+
+   *  *Centralized Management*: Enables centralized management of
+      challenge responses, reducing the complexity of managing multiple
+      domains.
+
+   *  *Reduced Exposure*: Eliminates the need for direct access to the
+      primary web server for validation.
+
+   *  *Performance*: Reduces latency compared to DNS-01 challenges by
+      allowing synchronous validation.
+
+   *  *Security*: Avoids risks associated with exposing DNS API
+      credentials.
 
 2.  Conventions and Definitions
 
@@ -84,15 +117,37 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Security Considerations
+3.  Delegated HTTP Validation
 
-   TODO Security
+   This proposal extends the HTTP-01 challenge type to support
+   delegation using a DNS record, similar to the approach used for
+   DNS-01 challenges.  The process is as follows: 1. *DNS
+   Configuration*: The domain owner creates a DNS record for _acme-
+   challenge.<YOUR_DOMAIN> pointing to a server capable of serving HTTP
+   requests.  For example: _acme-challenge.example.com CNAME validation-
+   server.example.net 2. *Challenge File Provisioning*: The designated
+   server hosts the challenge file at the path /.well-known/acme-
+   challenge/<TOKEN>, containing the domain authorization string. 3.
+   *Validation Request*: The ACME server performs the following steps: -
+   Attempts validation using the standard HTTP-01 method. - If the
+   HTTP-01 method fails or if delegation is detected, constructs a URL
+   using _acme-challenge.<YOUR_DOMAIN> and sends an HTTP GET request to
+   the designated server. 4. *Validation Response*: The designated
+   server responds with the authorization string, which the ACME server
+   verifies against the expected value. 5. *Challenge Completion*: If
+   the validation succeeds, the challenge status is updated to “valid.”
+   If it fails, the status is updated to “invalid,” with diagnostic
+   information provided.
 
-4.  IANA Considerations
+4.  Security Considerations
+
+   *  Relies on the security of both DNS and the delegated server.
+
+5.  IANA Considerations
 
    This document has no IANA actions.
 
-5.  Normative References
+6.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -109,6 +164,6 @@ Acknowledgments
 
 Author's Address
 
-   Your Name Here
+   Jared Crawford
    Your Organization Here
-   Email: your.email@example.com
+   Email: jmcrawford45@gmail.com
