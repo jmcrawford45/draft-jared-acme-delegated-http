@@ -1215,17 +1215,29 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-delegated-http-validation">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-delegated-http-validation" class="section-name selfRef">Delegated HTTP Validation</a>
       </h2>
-<p id="section-3-1">This proposal extends the HTTP-01 challenge type to support delegation using a DNS record, similar to the approach used for DNS-01 challenges. The process is as follows:
-1. <strong>DNS Configuration</strong>: The domain owner creates a DNS record for <code>_acme-challenge.&lt;YOUR_DOMAIN&gt;</code> pointing to a server capable of serving HTTP requests. For example:
+<p id="section-3-1">This proposal extends the HTTP-01 challenge type to support delegation using a DNS record, similar to the approach used for DNS-01 challenges. The process is as follows:<a href="#section-3-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3-2">
+<li id="section-3-2.1">
+          <p id="section-3-2.1.1"><strong>DNS Configuration</strong>: The domain owner creates a DNS record for <code>_acme-challenge.&lt;YOUR_DOMAIN&gt;</code> pointing to a server capable of serving HTTP requests. For example:
 <code>
 _acme-challenge.example.com CNAME validation-server.example.net
-</code>
-2. <strong>Challenge File Provisioning</strong>: The designated server hosts the challenge file at the path <code>/.well-known/acme-challenge/&lt;TOKEN&gt;</code>, containing the domain authorization string.
-3. <strong>Validation Request</strong>: The ACME server performs the following steps:
+</code><a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-3-2.2">
+          <p id="section-3-2.2.1"><strong>Challenge File Provisioning</strong>: The designated server hosts the challenge file at the path <code>/.well-known/acme-challenge/&lt;TOKEN&gt;</code>, containing the domain authorization string.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-3-2.3">
+          <p id="section-3-2.3.1"><strong>Validation Request</strong>: The ACME server performs the following steps:
 - Attempts validation using the standard HTTP-01 method.
-- If the HTTP-01 method fails or if delegation is detected, constructs a URL using <code>_acme-challenge.&lt;YOUR_DOMAIN&gt;</code> and sends an HTTP GET request to the designated server.
-4. <strong>Validation Response</strong>: The designated server responds with the authorization string, which the ACME server verifies against the expected value.
-5. <strong>Challenge Completion</strong>: If the validation succeeds, the challenge status is updated to “valid.” If it fails, the status is updated to “invalid,” with diagnostic information provided.<a href="#section-3-1" class="pilcrow">¶</a></p>
+- If the HTTP-01 method fails or if delegation is detected, constructs a URL using <code>_acme-challenge.&lt;YOUR_DOMAIN&gt;</code> and sends an HTTP GET request to the designated server.<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-3-2.4">
+          <p id="section-3-2.4.1"><strong>Validation Response</strong>: The designated server responds with the authorization string, which the ACME server verifies against the expected value.<a href="#section-3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-3-2.5">
+          <p id="section-3-2.5.1"><strong>Challenge Completion</strong>: If the validation succeeds, the challenge status is updated to “valid.” If it fails, the status is updated to “invalid,” with diagnostic information provided.<a href="#section-3-2.5.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
 </section>
 </div>
 <div id="security-considerations">
@@ -1245,7 +1257,7 @@ _acme-challenge.example.com CNAME validation-server.example.net
       <h2 id="name-iana-considerations">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-5-1">This document has no IANA actions.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">TODO: https://github.com/jmcrawford45/draft-crawford-acme-delegated-http/issues/1<a href="#section-5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-normative-references">
