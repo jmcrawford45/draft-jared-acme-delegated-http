@@ -73,7 +73,7 @@ This proposal extends the http-01 challenge type to support delegation using a D
 1. **DNS Configuration**: The domain owner creates a DNS record for `_acme-challenge.example.com` pointing to a server capable of serving HTTP validation requests. For example:
 
     ```
-_acme-challenge.example.com. CNAME validation-server.example.net.
+_acme-challenge.example.com. CNAME validation-server-example.net.
     ```
 2. **Challenge File Provisioning**: The designated server hosts the challenge file at the path `/.well-known/acme-challenge/{token}`, containing the domain authorization string.
 3. **Validation Request**: The ACME server attempts validation in the following order:
