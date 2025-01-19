@@ -1,0 +1,196 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2025-01-19T00:07:11.640855+00:00",
+  "repo": "jmcrawford45/draft-crawford-acme-delegated-http",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDONrYrDc6mhsAb",
+      "title": "Determine if new validation method is necessary #1",
+      "url": "https://github.com/jmcrawford45/draft-crawford-acme-delegated-http/issues/1",
+      "state": "OPEN",
+      "author": "jmcrawford45",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "As an alternative, we could optionally allow HTTP-01 validators to fallback to the challenge subdomain.\n\n",
+      "createdAt": "2025-01-16T21:50:04Z",
+      "updatedAt": "2025-01-16T21:50:04Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 2,
+      "id": "PR_kwDONrYrDc6IE5Ja",
+      "title": "minor formatting, and making the delegated server name easier to read.",
+      "url": "https://github.com/jmcrawford45/draft-crawford-acme-delegated-http/pull/2",
+      "state": "MERGED",
+      "author": "hosssha",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-01-16T23:29:53Z",
+      "updatedAt": "2025-01-16T23:36:59Z",
+      "baseRepository": "jmcrawford45/draft-crawford-acme-delegated-http",
+      "baseRefName": "main",
+      "baseRefOid": "c3ead1aadbb9246eea58573d9576d12776a1c139",
+      "headRepository": "hosssha/draft-crawford-acme-delegated-http",
+      "headRefName": "main",
+      "headRefOid": "9dc2bf515fda8d1b04d3f1fad7b3c94e483a1d11",
+      "closedAt": "2025-01-16T23:36:59Z",
+      "mergedAt": "2025-01-16T23:36:59Z",
+      "mergedBy": "jmcrawford45",
+      "mergeCommit": {
+        "oid": "567094cef3050fc452a2669fa037274eb276af2f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDONrYrDc6YcqAV",
+          "commit": {
+            "abbreviatedOid": "9dc2bf5"
+          },
+          "author": "jmcrawford45",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-16T23:36:12Z",
+          "updatedAt": "2025-01-16T23:36:12Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDONrYrDc6IE5lK",
+      "title": "Multiple updates.",
+      "url": "https://github.com/jmcrawford45/draft-crawford-acme-delegated-http/pull/3",
+      "state": "MERGED",
+      "author": "andrewachen",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Specify that the delegated entry should be attempted first and a server should not give up if it fails.\r\n- Use RFC8555 capitalization for dns-01 and http-01.\r\n- Add authors\r\n- Correct DNS examples\r\n- Load balancer benefits\r\n- General formatting updates",
+      "createdAt": "2025-01-16T23:30:53Z",
+      "updatedAt": "2025-01-16T23:38:02Z",
+      "baseRepository": "jmcrawford45/draft-crawford-acme-delegated-http",
+      "baseRefName": "main",
+      "baseRefOid": "567094cef3050fc452a2669fa037274eb276af2f",
+      "headRepository": "andrewachen/draft-crawford-acme-delegated-http",
+      "headRefName": "achen-updates",
+      "headRefOid": "8bec480aa9b6b0bd8305a9b82e5123ee39487d71",
+      "closedAt": "2025-01-16T23:38:02Z",
+      "mergedAt": "2025-01-16T23:38:02Z",
+      "mergedBy": "jmcrawford45",
+      "mergeCommit": {
+        "oid": "c03dadbf7bd7ced2550382de560667a70f3c5f22"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDONrYrDc6YcpNJ",
+          "commit": {
+            "abbreviatedOid": "f35a68e"
+          },
+          "author": "hosssha",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-16T23:34:34Z",
+          "updatedAt": "2025-01-16T23:34:35Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "```suggestion\r\n_acme-challenge.example.com. CNAME validation-server-example.net.\r\n```\r\nSpotting.com and .net might not be straightforward ",
+              "createdAt": "2025-01-16T23:34:34Z",
+              "updatedAt": "2025-01-16T23:34:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDONrYrDc6YcpZb",
+          "commit": {
+            "abbreviatedOid": "f35a68e"
+          },
+          "author": "jmcrawford45",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-16T23:35:08Z",
+          "updatedAt": "2025-01-16T23:35:08Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDONrYrDc6YcqZt",
+          "commit": {
+            "abbreviatedOid": "f35a68e"
+          },
+          "author": "andrewachen",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-16T23:37:19Z",
+          "updatedAt": "2025-01-16T23:37:20Z",
+          "comments": [
+            {
+              "originalPosition": 59,
+              "body": "I'm not sure that matter, to be honest -- the \"validation-server\" part should be pretty clear that it's \"not the same server.\"",
+              "createdAt": "2025-01-16T23:37:20Z",
+              "updatedAt": "2025-01-16T23:37:20Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
